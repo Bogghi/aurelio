@@ -9,5 +9,16 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <style>
+      #app {
+        all: initial; /* Resets all properties to browser defaults, except direction/unicode-bidi [web:6][web:22] */
+  display: block; /* Ensures block-level layout for app container [web:22] */
+  height: 100vh; /* Full viewport height for SPA layout [web:1] */
+  width: 100vw; /* Full viewport width [web:1] */
+  overflow: hidden; /* Prevents unwanted scrollbars [web:2] */      }
+  margin: 0;
+  padding: 0;
+  }
+    </style>
   </body>
 </html>
