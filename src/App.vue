@@ -1,12 +1,21 @@
 <script setup>
-import AppSideBar from './components/AppSideBar.vue'; 
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import AppSideBar from './components/AppSideBar.vue';
+
+const router = useRouter();
+
+onMounted(() => {
+  router.push('/');
+})
+
 </script>
 
 <template>
   <div class="app">
     <AppSideBar/>
     <div class="main">
-      <RouteView/>
+      <RouterView />
     </div>
   </div>
 </template>
