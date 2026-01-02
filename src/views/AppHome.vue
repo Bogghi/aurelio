@@ -1,4 +1,10 @@
 <script setup>
+import { ref } from 'vue';
+
+let debitor = ref('');
+let debit = ref(0);
+let credit = ref(0);
+let creditor = ref('');
 </script>
 
 <template>
@@ -9,19 +15,19 @@
         <div class="row">
           <div class="form-col">
             <label for="debitor">Debitor</label>
-            <input type="text" id="debitor">
+            <input type="text" id="debitor" :value="debitor" @keyup="val => console.log(debitor)">
           </div>
           <div class="form-col">
             <label for="debit">Debit</label>
-            <input type="number" id="debit">
+            <input type="number" id="debit" :value="debit">
           </div>
           <div class="form-col right">
             <label for="credit">Credit</label>
-            <input type="number" id="credit">
+            <input type="number" id="credit" :value="credit">
           </div>
           <div class="form-col right">
             <label for="creditor">Creditor</label>
-            <input type="text" id="creditor">
+            <input type="text" id="creditor" :value="creditor">
           </div>
         </div>
       </div>
