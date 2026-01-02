@@ -5,6 +5,21 @@ let debitor = ref('');
 let debit = ref(0);
 let credit = ref(0);
 let creditor = ref('');
+
+const saveToLadger = () => {
+  // Function to save the ladger entry
+  console.log('Saving to ladger:', {
+    debitor: debitor.value,
+    debit: debit.value,
+    credit: credit.value,
+    creditor: creditor.value,
+  });
+}
+const updateDebitCreditValues = value => {
+  credit.value = Math.abs(value);
+  debit.value = value > 0 ? -(value) : value;
+  console.log(value);
+};
 </script>
 
 <template>
@@ -15,19 +30,19 @@ let creditor = ref('');
         <div class="row">
           <div class="form-col">
             <label for="debitor">Debitor</label>
-            <input type="text" id="debitor" :value="debitor" @keyup="val => console.log(debitor)">
+            <input type="text" id="debitor" v-model="debitor">
           </div>
           <div class="form-col">
             <label for="debit">Debit</label>
-            <input type="number" id="debit" :value="debit">
+            <input type="number" id="debit" v-model="debit" @input="evt => updateDebitCreditValues(evt.target.value)">
           </div>
           <div class="form-col right">
             <label for="credit">Credit</label>
-            <input type="number" id="credit" :value="credit">
+            <input type="number" id="credit" v-model="credit" @input="evt => updateDebitCreditValues(evt.target.value)">
           </div>
           <div class="form-col right">
             <label for="creditor">Creditor</label>
-            <input type="text" id="creditor" :value="creditor">
+            <input type="text" id="creditor" v-model="creditor" @keyup.enter="saveToLadger">
           </div>
         </div>
       </div>
