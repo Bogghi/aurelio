@@ -13,11 +13,11 @@
           </div>
           <div class="form-col">
             <label for="debit">Debit</label>
-            <input type="text" id="debit">
+            <input type="number" id="debit">
           </div>
           <div class="form-col right">
             <label for="credit">Credit</label>
-            <input type="text" id="credit">
+            <input type="number" id="credit">
           </div>
           <div class="form-col right">
             <label for="creditor">Creditor</label>
@@ -42,26 +42,43 @@
       height: 100vh;
 
       .ladger-insert {
+        margin-top: 10px;
         display: flex;
-        border: 1px solid black;
-        height: 50px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 3px #9c9c9c;
 
         .row {
           display: flex;
           flex-direction: row;
           gap: 10px;
           min-width: 0;
-          padding: 5px;
+          padding: 10px;
 
           .form-col {
             display: flex;
             flex-direction: column;
             flex: 1;
             min-width: 0;
+
+            label {
+              font-size: 13px;
+            }
+
+            input {
+              font-size: 15px;
+              border: none;
+              box-shadow: 0px 0px 3px #9c9c9c;
+              border-radius: 5px;
+              padding: 5px;
+            }
           }
 
           .right {
             text-align: right;
+
+            input {
+              text-align: right;
+            }
           }
         }
       }
