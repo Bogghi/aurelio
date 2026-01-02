@@ -1,13 +1,13 @@
 <script setup>
+import AppSideBar from './components/AppSideBar.vue';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import AppSideBar from './components/AppSideBar.vue';
 
 const router = useRouter();
 
 onMounted(() => {
   router.push('/');
-})
+});
 
 </script>
 
