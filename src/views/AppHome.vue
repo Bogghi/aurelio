@@ -1,12 +1,13 @@
 <script setup>
 import { ref } from 'vue';
+import { writeTextFile, exists, mkdir, BaseDirectory } from '@tauri-apps/plugin-fs';
 
 let debitor = ref('');
 let debit = ref(0);
 let credit = ref(0);
 let creditor = ref('');
 
-const saveToLadger = () => {
+const saveToLadger = async () => {
   // Function to save the ladger entry
   console.log('Saving to ladger:', {
     debitor: debitor.value,
@@ -14,6 +15,38 @@ const saveToLadger = () => {
     credit: credit.value,
     creditor: creditor.value,
   });
+  const content = `---debitor: ${debitor.value}\ndebit: ${debit.value}\ncredit: ${credit.value}\ncreditor: ${creditor.value}\n---\n`;
+
+  try {
+    const dirPath = "Vault/Transactions";
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `ladger-entry-${timestamp}.md`;
+    const fullPath = `${dirPath}/${filename}`;
+
+    // Check if directory exists, create if not
+    const dirExists = await exists(dirPath, { baseDir: BaseDirectory.Home });
+    console.log("Directory exists:", dirExists);
+
+    if (!dirExists) {
+      console.log("Creating directory:", dirPath);
+      await mkdir(dirPath, { baseDir: BaseDirectory.Home, recursive: true });
+    }
+
+    // Write the file
+    await writeTextFile(fullPath, content, {
+      baseDir: BaseDirectory.Home,
+    });
+    console.log("Saved ladger entry to", fullPath);
+
+    debitor.value = '';
+    debit.value = 0;
+    credit.value = 0;
+    creditor.value = '';
+  }
+  catch (error) {
+    console.error("Error saving ladger entry:", error);
+  }
+
 }
 const updateDebitCreditValues = value => {
   credit.value = Math.abs(value);
