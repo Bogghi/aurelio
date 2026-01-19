@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { writeTextFile, exists, mkdir, BaseDirectory } from '@tauri-apps/plugin-fs';
+import Database from '@tauri-apps/plugin-sql';
 
 let debitor = ref('');
 let debit = ref(0);
@@ -9,16 +10,10 @@ let creditor = ref('');
 
 const saveToLadger = async () => {
   // Function to save the ladger entry
-  console.log('Saving to ladger:', {
-    debitor: debitor.value,
-    debit: debit.value,
-    credit: credit.value,
-    creditor: creditor.value,
-  });
-  const content = `---debitor: ${debitor.value}\ndebit: ${debit.value}\ncredit: ${credit.value}\ncreditor: ${creditor.value}\n---\n`;
+  const content = `---\ndebitor: ${debitor.value}\ndebit: ${debit.value}\ncredit: ${credit.value}\ncreditor: ${creditor.value}\n---\n`;
 
   try {
-    const dirPath = "Vault/Transactions";
+    const dirPath = "Vault/Finance/Transactions";
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `ladger-entry-${timestamp}.md`;
     const fullPath = `${dirPath}/${filename}`;
@@ -53,6 +48,10 @@ const updateDebitCreditValues = value => {
   debit.value = value > 0 ? -(value) : value;
   console.log(value);
 };
+
+onMounted(async () => {
+  const db = await Database.load('sqlite:test.db');
+});
 </script>
 
 <template>
