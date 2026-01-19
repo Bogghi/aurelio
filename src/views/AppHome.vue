@@ -7,6 +7,7 @@ let debitor = ref('');
 let debit = ref(0);
 let credit = ref(0);
 let creditor = ref('');
+let db = ref(null);
 
 const saveToLadger = async () => {
   // Function to save the ladger entry
@@ -33,10 +34,23 @@ const saveToLadger = async () => {
     });
     console.log("Saved ladger entry to", fullPath);
 
+    await db.value.execute(`
+      INSERT INTO transactions (debitor, debit, credit, creditor, timestamp)
+      VALUES (?, ?, ?, ?, ?)
+    `, [
+      debitor.value,
+      debit.value,
+      credit.value,
+      creditor.value,
+      new Date().toISOString()
+    ]);
+
     debitor.value = '';
     debit.value = 0;
     credit.value = 0;
     creditor.value = '';
+
+
   }
   catch (error) {
     console.error("Error saving ladger entry:", error);
@@ -50,7 +64,7 @@ const updateDebitCreditValues = value => {
 };
 
 onMounted(async () => {
-  const db = await Database.load('sqlite:aurelio.db');
+  db.value = await Database.load('sqlite:aurelio.db');
 });
 </script>
 
