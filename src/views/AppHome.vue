@@ -50,7 +50,7 @@ const updateDebitCreditValues = value => {
 };
 
 onMounted(async () => {
-  const db = await Database.load('sqlite:test.db');
+  const db = await Database.load('sqlite:aurelio.db');
 });
 </script>
 
