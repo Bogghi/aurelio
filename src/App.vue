@@ -1,5 +1,5 @@
 <script setup>
-import AppSideBar from './components/AppSideBar.vue';
+import AppSideBar from '@/components/AppSideBar.vue';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 

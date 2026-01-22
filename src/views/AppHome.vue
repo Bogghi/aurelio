@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import Transaction from '@/components/AppHome/Transaction.vue';
+
 import { writeTextFile, exists, mkdir, BaseDirectory } from '@tauri-apps/plugin-fs';
 import Database from '@tauri-apps/plugin-sql';
 
@@ -93,7 +95,7 @@ onMounted(async () => {
         </div>
       </div>
       <div class="ladger-transactions">
-        <!-- ladger transaction should go in here --> 
+        <Transaction />        
       </div>
     </div>
   </div>
