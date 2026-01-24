@@ -10,6 +10,7 @@ let debit = ref(0);
 let credit = ref(0);
 let creditor = ref('');
 let db = ref(null);
+let transactions = ref([]);
 
 const saveToLadger = async () => {
   // Function to save the ladger entry
@@ -46,13 +47,12 @@ const saveToLadger = async () => {
       creditor.value,
       new Date().toISOString()
     ]);
+    transactions.value = await db.value.select(`select * from transactions`,[]);
 
     debitor.value = '';
     debit.value = 0;
     credit.value = 0;
     creditor.value = '';
-
-
   }
   catch (error) {
     console.error("Error saving ladger entry:", error);
@@ -67,6 +67,7 @@ const updateDebitCreditValues = value => {
 
 onMounted(async () => {
   db.value = await Database.load('sqlite:aurelio.db');
+  transactions.value = await db.value.select(`select * from transactions`,[]);
 });
 </script>
 
@@ -95,7 +96,7 @@ onMounted(async () => {
         </div>
       </div>
       <div class="ladger-transactions">
-        <Transaction />        
+        <Transaction v-for="transaction in transactions" :key="transaction.id" :transaction="transaction" />       
       </div>
     </div>
   </div>
@@ -107,14 +108,17 @@ onMounted(async () => {
     justify-content: center;
 
     .ladger {
-      width: 600px;
+      width: 800px;
       height: 100vh;
+      display: flex;
+      flex-direction: column;
 
       .ladger-insert {
         margin-top: 10px;
         display: flex;
         border-radius: 5px;
         box-shadow: 0px 0px 3px #9c9c9c;
+        max-height: 100px;
 
         .row {
           display: flex;
@@ -153,9 +157,11 @@ onMounted(async () => {
       }
 
       .ladger-transactions {
-        margin-top: 10px;
-        border: 1px solid black;
+        margin: 10px 0 10px 0;
         display: flex;
+        height: 100%;
+        background-color: #f5f5f5;
+        border-radius: 10px;
       }
     }
   }
