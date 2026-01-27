@@ -159,6 +159,7 @@ onMounted(async () => {
       .ladger-transactions {
         margin: 10px 0 10px 0;
         display: flex;
+        flex-direction: column;
         height: 100%;
         background-color: #f5f5f5;
         border-radius: 10px;
