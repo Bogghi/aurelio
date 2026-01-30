@@ -5,7 +5,7 @@ import { Icon } from '@iconify/vue';
 <template>
   <div class="side-bar">
     <Icon icon='solar:home-2-linear' class='icon-style clicked' />
-    <Icon icon='solar:sort-by-time-bold-duotone' class='icon-style' />
+    <Icon icon='solar:settings-minimalistic-outline' class='icon-style' />
   </div>
 </template>
 
