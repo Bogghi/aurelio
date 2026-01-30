@@ -1,6 +1,5 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { useRoute } from 'vue-router';
 import { router } from '../router';
 import { ref } from 'vue';
 
