@@ -5,6 +5,7 @@ pub fn run() {
     let migrations = db::migrations::all_migrations();
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
         .plugin(
             tauri_plugin_sql::Builder::default()
                 .add_migrations("sqlite:aurelio.db", migrations)

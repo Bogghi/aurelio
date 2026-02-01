@@ -1,4 +1,5 @@
 mod m20260119_create_transactions_table;
+mod m20260201_create_settings_table;
 
 use tauri_plugin_sql::Migration;
 
@@ -6,6 +7,7 @@ pub fn all_migrations() -> Vec<Migration> {
     let mut migrations = vec![
         // Add future migrations here
         m20260119_create_transactions_table::migration(),
+        m20260201_create_settings_table::migration(),
     ];
 
     migrations.sort_by_key(|m| m.version);
