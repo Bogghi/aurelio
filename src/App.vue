@@ -1,19 +1,22 @@
 <script setup>
-import AppSideBar from '@/components/AppSideBar.vue';
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import AppSideBar from "@/components/AppSideBar.vue";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useSettingsStore } from "./stores/settings.store";
+
+const settingsStore = useSettingsStore();
+settingsStore.setupApp();
 
 const router = useRouter();
 
 onMounted(() => {
-  router.push('/');
+  router.push("/");
 });
-
 </script>
 
 <template>
   <div class="app">
-    <AppSideBar/>
+    <AppSideBar />
     <div class="main">
       <RouterView />
     </div>

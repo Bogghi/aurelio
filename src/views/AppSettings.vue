@@ -1,4 +1,20 @@
-<script setup></script>
+<script setup>
+import { open } from "@tauri-apps/plugin-dialog";
+import { useSettingsStore } from "../stores/settings.store";
+
+const settingsStore = useSettingsStore();
+
+const handleFolderSelect = async () => {
+  // Logic to handle folder selection
+  const file = await open({
+    multiple: false,
+    directory: true,
+    title: "Select Application Storage Folder",
+  });
+
+  console.log("Selected folder:", file);
+};
+</script>
 
 <template>
   <div class="flex-container just-center">
@@ -10,7 +26,13 @@
 
       <div class="input-container">
         <p class="setting-title">Application Storage Folder</p>
-        <input type="text" class="setting-input" />
+        <input
+          type="text"
+          class="setting-input"
+          placeholder="~/Aurelio"
+          :value="settingsStore.appStorageFolder"
+          @click="handleFolderSelect"
+        />
       </div>
     </div>
   </div>
