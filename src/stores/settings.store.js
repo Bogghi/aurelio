@@ -20,14 +20,11 @@ export const useSettingsStore = defineStore("settings", {
                 // Get settings from database
                 const settings = await db.execute("SELECT * FROM settings LIMIT 1", []);
 
-                console.log("Fetched settings from DB:", settings);
                 if (settings && settings.length > 0) {
                     this.setAppStorageFolder(settings[0].storage_folder);
-                    console.log("Settings loaded from DB:", settings);
                 } else {
                     // Default settings
                     this.setAppStorageFolder();
-                    console.log("Using default settings");
                 }
 
                 return true;
