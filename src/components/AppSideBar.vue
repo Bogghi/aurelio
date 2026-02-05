@@ -1,36 +1,38 @@
 <script setup>
-import { Icon } from '@iconify/vue';
-import { router } from '../router';
-import { ref } from 'vue';
+import { Icon } from "@iconify/vue";
+import { router } from "../router";
+import { ref } from "vue";
 
 const map = ref([
-  { 
-    icon: 'solar:home-2-linear',
-    route: '/', 
+  {
+    icon: "solar:home-2-linear",
+    route: "/",
     clicked: true,
   },
-  { 
-    icon: 'solar:settings-minimalistic-outline',
-    route: '/settings', 
+  {
+    icon: "solar:settings-minimalistic-outline",
+    route: "/settings",
     clicked: false,
-  }
+  },
 ]);
 
-const navigateToRoute = route => {
-  map.value.forEach(section => {
+const navigateToRoute = (route) => {
+  map.value.forEach((section) => {
     section.clicked = section.route === route;
   });
   router.push(route);
-}
+};
 </script>
 
 <template>
   <div class="side-bar">
-    <Icon v-for="section in map" 
-      :icon="section.icon" 
+    <Icon
+      v-for="section in map"
+      :icon="section.icon"
       class="icon-style"
-      :class="{clicked: section.clicked}" 
-      @click="navigateToRoute(section.route)" />
+      :class="{ clicked: section.clicked }"
+      @click="navigateToRoute(section.route)"
+    />
   </div>
 </template>
 
@@ -51,8 +53,12 @@ const navigateToRoute = route => {
     padding: 5px 4px;
     border-radius: 5px;
 
+    &:hover {
+      cursor: pointer;
+    }
+
     &.clicked {
-      background-color: rgba(255,255,255, 0.3);
+      background-color: rgba(255, 255, 255, 0.3);
     }
   }
 }
