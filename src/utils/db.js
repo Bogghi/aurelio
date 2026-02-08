@@ -39,6 +39,7 @@ class DB {
         }
     }
 
+    // Method to do UPDATE/INSERT/DELETE queries
     async execute(query, params = []) {
         try {
             const db = await this.getDB();
@@ -46,6 +47,18 @@ class DB {
             return result.rows || [];
         } catch (error) {
             console.error('Query execution failed:', query, error);
+            return [];
+        }
+    }
+
+    // Method to do SELECT queries
+    async select(query, params = []) {
+        try {
+            const db = await this.getDB();
+            const result = await db.select(query, params);
+            return result || [];
+        } catch (error) {
+            console.error('Query selection failed:', query, error);
             return [];
         }
     }

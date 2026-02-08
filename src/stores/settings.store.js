@@ -8,36 +8,33 @@ export const useSettingsStore = defineStore("settings", {
         error: null
     }),
     actions: {
-        setAppStorageFolder(folderPath = "~/Aurelio") {
+        setAppStorageFolder(folderPath) {
             this.appStorageFolder = folderPath;
         },
-
         async setupApp() {
             this.isLoading = true;
             this.error = null;
 
             try {
                 // Get settings from database
-                const settings = await db.execute("SELECT * FROM settings LIMIT 1", []);
-
-                if (settings && settings.length > 0) {
-                    this.setAppStorageFolder(settings[0].storage_folder);
-                } else {
-                    // Default settings
-                    this.setAppStorageFolder();
+                const settings = await db.select("SELECT * FROM settings LIMIT 1", []);
+                
+                if (settings.length === 0) {
+                    console.error("No settings found in database");
+                    throw new Error("No settings found in database");
                 }
+                
+                this.setAppStorageFolder(settings[0].storage_folder);
 
                 return true;
             } catch (error) {
                 console.error("Failed to setup app:", error);
                 this.error = error.message;
-                // Fallback to default
-                this.setAppStorageFolder();
                 return false;
             } finally {
                 this.isLoading = false;
             }
-        }
+        },
     },
     getters: {
         getStorageFolder: (state) => state.appStorageFolder

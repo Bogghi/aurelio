@@ -14,4 +14,9 @@ const SQL: &str = r#"
         id INTEGER PRIMARY KEY AUTOINCREMENT,  
         storage_folder TEXT NOT NULL
     );
+
+    -- Insert default settings only if table is empty
+    INSERT INTO settings (storage_folder)
+    SELECT '~/Aurelio'
+    WHERE NOT EXISTS (SELECT 1 FROM settings LIMIT 1);
 "#;

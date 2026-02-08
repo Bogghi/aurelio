@@ -1,6 +1,7 @@
 <script setup>
 import { open } from "@tauri-apps/plugin-dialog";
-import { useSettingsStore } from "../stores/settings.store";
+import { useSettingsStore } from "@/stores/settings.store";
+import db from "@/utils/db.js";
 
 const settingsStore = useSettingsStore();
 
@@ -12,7 +13,11 @@ const handleFolderSelect = async () => {
     title: "Select Application Storage Folder",
   });
 
-  console.log("Selected folder:", file);
+  // Updating the storage folder in the settings store
+  settingsStore.setAppStorageFolder(file);
+  await db.execute("UPDATE settings SET storage_folder = ? WHERE id = 1", [
+    file,
+  ]);
 };
 </script>
 
