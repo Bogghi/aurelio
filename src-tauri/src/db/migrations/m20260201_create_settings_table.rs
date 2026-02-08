@@ -17,6 +17,6 @@ const SQL: &str = r#"
 
     -- Insert default settings only if table is empty
     INSERT INTO settings (storage_folder)
-    SELECT '~/Aurelio'
+    SELECT 'Aurelio'
     WHERE NOT EXISTS (SELECT 1 FROM settings LIMIT 1);
 "#;

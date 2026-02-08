@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import db from "@/utils/db.js";
+import { writeTextFile, exists, mkdir, BaseDirectory } from "@tauri-apps/plugin-fs"
 
 export const useSettingsStore = defineStore("settings", {
     state: () => ({
@@ -8,7 +9,26 @@ export const useSettingsStore = defineStore("settings", {
         error: null
     }),
     actions: {
-        setAppStorageFolder(folderPath) {
+        async setAppStorageFolder(folderPath) {
+            if(!folderPath) {
+                // this scenario has no allert because it's the cancell button
+                return;
+            }
+            if (folderPath.length === 0) {
+                alert("No folder selected.\nPlease select a folder to proceed.");
+                return;
+            }
+
+            if(!await exists(folderPath)) {
+                try {
+                    await mkdir(folderPath, { baseDir: BaseDirectory.Home, recursive: true });
+                } catch (error) {
+                    alert(`Failed to create directory: ${error.message}`);
+                    return;
+                }
+            }
+
+            await db.execute("UPDATE settings SET storage_folder = ?", [folderPath]);
             this.appStorageFolder = folderPath;
         },
         async setupApp() {
@@ -24,7 +44,7 @@ export const useSettingsStore = defineStore("settings", {
                     throw new Error("No settings found in database");
                 }
                 
-                this.setAppStorageFolder(settings[0].storage_folder);
+                this.appStorageFolder = settings[0].storage_folder;
 
                 return true;
             } catch (error) {
